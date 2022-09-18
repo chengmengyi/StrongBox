@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/connect_time_text_color_selector.xml" value="0.2984375" />
+        <entry key="app/src/main/res/drawable/home_btn_selector.xml" value="0.2984375" />
+        <entry key="app/src/main/res/drawable/home_server_icon_bg.xml" value="0.2984375" />
+        <entry key="app/src/main/res/drawable/home_server_selector.xml" value="0.2984375" />
+        <entry key="app/src/main/res/drawable/home_set_selector.xml" value="0.2984375" />
+        <entry key="app/src/main/res/drawable/progress_main.xml" value="0.2984375" />
+        <entry key="app/src/main/res/layout/activity_home_0914.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_result_0914.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/layout/activity_url0914.xml" value="0.21105072463768115" />
+        <entry key="app/src/main/res/layout/layout_connect.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_home_bottom.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/layout/layout_server_item0914.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/layout/layout_server_list.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_set.xml" value="0.22826086956521738" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
