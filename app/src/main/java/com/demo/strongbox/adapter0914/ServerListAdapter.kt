@@ -17,7 +17,7 @@ class ServerListAdapter(private val context:Context,private val clickServer:(ser
     init {
         list.clear()
         list.add(Connect0914InfoObject.newFastSever0914En())
-        list.addAll(Local0914Conf.server0914List)
+        list.addAll(Connect0914InfoObject.getServerList())
     }
 
     inner class ServerView(view:View):RecyclerView.ViewHolder(view){

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.demo.strongbox.R
@@ -39,4 +40,8 @@ fun Context.getNet0914Status(): Int {
 
 fun Context.toast(s: String){
     Toast.makeText(this, s, Toast.LENGTH_LONG).show()
+}
+
+fun printStrong(string: String){
+    Log.e("qwer","${string}")
 }

@@ -8,6 +8,7 @@ import com.demo.strongbox.R
 import com.gyf.immersionbar.ImmersionBar
 
 abstract class Base0914Activity(private val id:Int) : AppCompatActivity(){
+    var resume0914=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,21 @@ abstract class Base0914Activity(private val id:Int) : AppCompatActivity(){
         metrics.density = td
         metrics.scaledDensity = td
         metrics.densityDpi = dpi
+    }
+
+    override fun onResume() {
+        super.onResume()
+        resume0914=true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        resume0914=false
+    }
+
+    override fun onStop() {
+        super.onStop()
+        resume0914=false
     }
 
 }

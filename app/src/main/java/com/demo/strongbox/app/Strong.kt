@@ -7,9 +7,11 @@ import com.demo.strongbox.fire.Read0914Firebase
 import com.github.shadowsocks.Core
 import com.tencent.mmkv.MMKV
 
+lateinit var mStrong: Strong
 class Strong:Application() {
     override fun onCreate() {
         super.onCreate()
+        mStrong=this
         Core.init(this,Home0914Activity::class)
         MMKV.initialize(this)
         if (!packageName.equals(na(this))){

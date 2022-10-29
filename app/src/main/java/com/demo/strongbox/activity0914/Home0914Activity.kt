@@ -9,6 +9,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.demo.strongbox.R
+import com.demo.strongbox.ad0914.Ad0914LocationStr
+import com.demo.strongbox.ad0914.Load0914AdObject
+import com.demo.strongbox.ad0914.Show0914HomeObject
+import com.demo.strongbox.ad0914.Show0914MainObject
 import com.demo.strongbox.adapter0914.ServerListAdapter
 import com.demo.strongbox.app.*
 import com.demo.strongbox.connect.Connect0914ServerObject
@@ -27,6 +31,7 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0914State, IConnect0914Time {
+    private var preType=0
     private var home0914CanClick=true
     private var permission=false
     private var connectServer=true
@@ -40,6 +45,10 @@ class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0
             toast("Connected fail")
         }
     }
+
+    private val show0914Home by lazy { Show0914HomeObject(this,Ad0914LocationStr.AD_HOME) }
+    private val show0914connect by lazy { Show0914MainObject(this,Ad0914LocationStr.AD_CONNECT){toResult0914Activity()} }
+    private val show0914back by lazy { Show0914MainObject(this,Ad0914LocationStr.AD_BACK){updateHomeUI(preType)} }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,12 +70,12 @@ class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0
 
     private fun clickServer(server0914En: Server0914En){
         val current = Connect0914ServerObject.server0914En
-        Connect0914ServerObject.server0914En=server0914En
         if (current.host_0914_strong!=server0914En.host_0914_strong&&Connect0914ServerObject.connected0914()){
             AlertDialog.Builder(this).apply {
                 setMessage("You are currently connected and need to disconnect before manually connecting to the server.")
                 setPositiveButton("sure") { _, _ ->
-                    updateHomeUI(1)
+                    Connect0914ServerObject.server0914En=server0914En
+                    updateHomeUI(1,showAd = false)
                     connectDisconnectServer()
                 }
                 setNegativeButton("cancel",null)
@@ -74,7 +83,8 @@ class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0
             }
             return
         }
-        updateHomeUI(1)
+        Connect0914ServerObject.server0914En=server0914En
+        updateHomeUI(1,showAd = false)
         if (current.host_0914_strong==server0914En.host_0914_strong&&Connect0914ServerObject.connected0914()){
 
         }else{
@@ -161,6 +171,8 @@ class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0
 
     private fun loop0914CheckResult(connect:Boolean){
         this.connectServer=connect
+        Load0914AdObject.loadLogic(Ad0914LocationStr.AD_CONNECT)
+        Load0914AdObject.loadLogic(Ad0914LocationStr.AD_RESULT)
         launch0914Job = GlobalScope.launch(Dispatchers.Main) {
             var time = 0
             while (true) {
@@ -175,9 +187,11 @@ class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0
                 }
                 if (time in 2..9){
                     val success = if (connect) Connect0914ServerObject.connected0914() else Connect0914ServerObject.disconnected0914()
-                    if (success){
-                        cancel()
-                        connectDisconnectCompleted()
+                    if(success){
+                        show0914connect.show0914MainAd{
+                            cancel()
+                            connectDisconnectCompleted(toResult = it)
+                        }
                     }
                 }
             }
@@ -247,8 +261,19 @@ class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0
         iv_home_server_icon.setImageResource(serverIcon2(Connect0914ServerObject.server0914En.country_0914_strong))
     }
 
-    private fun updateHomeUI(type:Int){
-        if (!home0914CanClick)return
+    private fun updateHomeUI(type:Int,showAd:Boolean=true){
+        if (!home0914CanClick) return
+        if (showAd){
+            if (type==0){
+                Load0914AdObject.loadLogic(Ad0914LocationStr.AD_BACK)
+            }
+            if (preType==0&&type==1){
+                preType=type
+                show0914back.show0914MainAd{}
+                return
+            }
+        }
+        preType=type
         layout_server_list.showView(type==0)
         layout_connect.showView(type==1)
         layout_set.showView(type==2)
@@ -257,10 +282,19 @@ class Home0914Activity :Base0914Activity(R.layout.activity_home_0914), IConnect0
         iv_bottom_set.isSelected=type==2
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (ActivityCallBack0914.refresh0914HomeAd){
+            show0914Home.loop0914Call()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         stopLoop0914Check()
+        show0914Home.stopLaunch0914Job()
         Connect0914ServerObject.onDestroy()
+        ActivityCallBack0914.refresh0914HomeAd=true
         Connect0914TimeObject.deleteCallback(this)
     }
 

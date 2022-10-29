@@ -2,6 +2,8 @@ package com.demo.strongbox.activity0914
 
 import android.os.Bundle
 import com.demo.strongbox.R
+import com.demo.strongbox.ad0914.Ad0914LocationStr
+import com.demo.strongbox.ad0914.Show0914HomeObject
 import com.demo.strongbox.app.serverIcon
 import com.demo.strongbox.connect.Connect0914ServerObject
 import com.demo.strongbox.connect.Connect0914TimeObject
@@ -10,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_result_0914.*
 
 class Result0914Activity:Base0914Activity(R.layout.activity_result_0914), IConnect0914Time {
     private var state=false
+    private val show0914Home by lazy { Show0914HomeObject(this, Ad0914LocationStr.AD_RESULT) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +36,14 @@ class Result0914Activity:Base0914Activity(R.layout.activity_result_0914), IConne
         tv_result_connect_time.text=time
     }
 
+    override fun onResume() {
+        super.onResume()
+        show0914Home.loop0914Call()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        show0914Home.stopLaunch0914Job()
         Connect0914TimeObject.deleteCallback(this)
     }
 }

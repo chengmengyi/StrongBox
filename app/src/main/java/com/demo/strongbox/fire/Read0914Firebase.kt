@@ -6,29 +6,73 @@ import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Read0914Firebase {
     val ci0914= arrayListOf<String>()
     val se0914= arrayListOf<Server0914En>()
 
+    private var max0914ClickNum=15
+    private var max0914ShowNum=50
+
+    private var current0914ShowNum=0
+    private var current0914ClickNum=0
+
     fun read(){
         saveRaoStr(Local0914Conf.LOCAL_RAO_0914)
         createServerId(Local0914Conf.server0914List)
 
+        getLocalCurrentNum()
 
-        val remoteConfig = Firebase.remoteConfig
-        remoteConfig.fetchAndActivate().addOnCompleteListener {
-            if (it.isSuccessful){
-                saveRaoStr(remoteConfig.getString("strong_rao_0914"))
-                saveCi0914(remoteConfig.getString("strong_ci_0914"))
-                saveSe0914(remoteConfig.getString("strong_se_0914"))
-                saveAd0914(remoteConfig.getString("strong_ad_0914"))
-            }
-        }
+//        val remoteConfig = Firebase.remoteConfig
+//        remoteConfig.fetchAndActivate().addOnCompleteListener {
+//            if (it.isSuccessful){
+//                saveRaoStr(remoteConfig.getString("strong_rao_0914"))
+//                saveCi0914(remoteConfig.getString("strong_ci_0914"))
+//                saveSe0914(remoteConfig.getString("strong_se_0914"))
+//                saveAd0914(remoteConfig.getString("strong_ad_0914"))
+//            }
+//        }
+    }
+
+
+    fun is0914Limit():Boolean{
+        return current0914ShowNum>= max0914ShowNum|| current0914ClickNum>= max0914ClickNum
+    }
+
+    private fun getLocalCurrentNum(){
+        current0914ShowNum=MMKV.defaultMMKV().decodeInt(getSaveNumKey("strong_0914_show"),0)
+        current0914ClickNum=MMKV.defaultMMKV().decodeInt(getSaveNumKey("strong_0914_click"),0)
+    }
+
+    fun addClick0914Num(){
+        current0914ClickNum++
+        MMKV.defaultMMKV().encode(getSaveNumKey("strong_0914_click"),current0914ClickNum)
+    }
+
+    fun addShow0914Num(){
+        current0914ShowNum++
+        MMKV.defaultMMKV().encode(getSaveNumKey("strong_0914_show"),current0914ShowNum)
     }
 
     private fun saveAd0914(string: String){
         MMKV.defaultMMKV().encode("strong_ad_0914",string)
+        try {
+            val jsonObject = JSONObject(string)
+            max0914ShowNum=jsonObject.optInt("strong_0914_show")
+            max0914ClickNum=jsonObject.optInt("strong_0914_click")
+        }catch (e:Exception){
+
+        }
+    }
+
+    private fun getSaveNumKey(type:String)="$type...${SimpleDateFormat("yyyy-MM-dd").format(Date(System.currentTimeMillis()))}"
+
+
+    fun readAdStr0914():String{
+        val strong_ad_0914 = MMKV.defaultMMKV().decodeString("strong_ad_0914", "")
+        if(strong_ad_0914.isNullOrEmpty()) return Local0914Conf.STRONG_AD_0914 else return strong_ad_0914
     }
 
     private fun saveSe0914(string: String){

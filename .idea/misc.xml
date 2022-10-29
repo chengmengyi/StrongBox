@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bg_2e2e2e_8dp.xml" value="0.29384615384615387" />
+        <entry key="app/src/main/res/drawable/bg_fff_8dp.xml" value="0.29384615384615387" />
         <entry key="app/src/main/res/drawable/connect_time_text_color_selector.xml" value="0.2984375" />
         <entry key="app/src/main/res/drawable/home_btn_selector.xml" value="0.2984375" />
         <entry key="app/src/main/res/drawable/home_server_icon_bg.xml" value="0.2984375" />
@@ -14,7 +16,9 @@
         <entry key="app/src/main/res/layout/activity_result_0914.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/layout/activity_url0914.xml" value="0.21105072463768115" />
         <entry key="app/src/main/res/layout/layout_connect.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_home_ad0914.xml" value="0.13728470111448834" />
         <entry key="app/src/main/res/layout/layout_home_bottom.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/layout/layout_result_ad0914.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/layout_server_item0914.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/layout/layout_server_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_set.xml" value="0.22826086956521738" />

@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.blankj.utilcode.util.ActivityUtils
 import com.demo.strongbox.activity0914.Home0914Activity
 import com.demo.strongbox.activity0914.Main0914Activity
+import com.google.android.gms.ads.AdActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,7 +34,6 @@ object ActivityCallBack0914 {
             if (acNum==1){
                 activity0914Front=true
                 if (to0914MainActivity){
-                    refresh0914HomeAd=true
                     if (ActivityUtils.isActivityExistsInStack(Home0914Activity::class.java)){
                         activity.startActivity(Intent(activity, Main0914Activity::class.java))
                     }
@@ -50,11 +50,12 @@ object ActivityCallBack0914 {
             acNum--
             if (acNum<=0){
                 activity0914Front=false
+                refresh0914HomeAd=true
                 launch0914Job= GlobalScope.launch {
                     delay(3000L)
                     to0914MainActivity=true
                     ActivityUtils.finishActivity(Main0914Activity::class.java)
-//                    ActivityUtils.finishActivity(AdActivity::class.java)
+                    ActivityUtils.finishActivity(AdActivity::class.java)
                 }
             }
         }
